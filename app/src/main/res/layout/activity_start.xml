@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_google_signin_btn_text_dark_default"
+    android:backgroundTint="@color/colorPrimary"
+    tools:context="chatapp.com.chatapp.StartActivity">
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/welcome_to_chatapp"
+        android:textStyle="bold"
+        tools:textColor="@color/common_google_signin_btn_text_dark_default"
+        tools:textSize="24sp" />
+
+    <Button
+        android:id="@+id/Start_reg_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/start_login_btn"
+        android:layout_alignLeft="@+id/start_login_btn"
+        android:layout_alignRight="@+id/start_login_btn"
+        android:layout_alignStart="@+id/start_login_btn"
+        android:layout_below="@+id/start_login_btn"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+        android:text="@string/create_a_new_account" />
+
+    <Button
+        android:id="@+id/start_login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="Already Have An Account" />
+
+</RelativeLayout>

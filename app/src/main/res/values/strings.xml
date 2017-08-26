@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ChatApp</string>
+    <string name="create_a_new_account">Create a New Account</string>
+    <string name="welcome_to_chatapp">Welcome to ChatApp</string>
+    <string name="main_page">Main page</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="all_users">All Users</string>
+    <string name="logout">LogOut</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_status">Hi There, I am Using ChatApp</string>
+    <string name="display_name">Display Name</string>
+    <string name="change_image">CHANGE IMAGE</string>
+    <string name="change_status">CHANGE STATUS</string>
+    <string name="save_changes">Save Changes</string>
+</resources>
