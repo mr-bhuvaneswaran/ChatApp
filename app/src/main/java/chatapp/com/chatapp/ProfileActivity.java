@@ -27,6 +27,7 @@ import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference mUserdatabaseReference;
     private DatabaseReference mFriendReqdatabaseReference;
     private DatabaseReference mFrienddatabaseReference;
+    private DatabaseReference mNotificationdatabaseReference;
 
     private String mcurrentState;
     private FirebaseUser mcurrentUser;
@@ -63,8 +65,11 @@ public class ProfileActivity extends AppCompatActivity {
         mUserdatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendReqdatabaseReference = FirebaseDatabase.getInstance().getReference().child("Friend_Req");
         mFrienddatabaseReference = FirebaseDatabase.getInstance().getReference().child("Friends");
+        mNotificationdatabaseReference = FirebaseDatabase.getInstance().getReference().child("Notifications");
         mcurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        mDeclineRequestButton.setVisibility(View.INVISIBLE);
+        mDeclineRequestButton.setEnabled(false);
         mUserdatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -126,11 +131,20 @@ public class ProfileActivity extends AppCompatActivity {
                                          .setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
                                      @Override
                                      public void onSuccess(Void aVoid) {
-                                         mcurrentState="req_sent";
-                                         msendRequestButton.setText("Cancel Friend Request");
-                                         mDeclineRequestButton.setVisibility(View.INVISIBLE);
-                                         mDeclineRequestButton.setEnabled(false);
-                                         Toast.makeText(ProfileActivity.this,"Request Sent",Toast.LENGTH_SHORT).show();
+
+                                         HashMap<String, String> notificationMap = new HashMap<>();
+                                         notificationMap.put("from", mcurrentUser.getUid());
+                                         notificationMap.put("type", "friend_request");
+                                         mNotificationdatabaseReference.child(user_id).push().setValue(notificationMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                             @Override
+                                             public void onSuccess(Void aVoid) {
+                                                 mcurrentState="req_sent";
+                                                 msendRequestButton.setText("Cancel Friend Request");
+                                                 mDeclineRequestButton.setVisibility(View.INVISIBLE);
+                                                 mDeclineRequestButton.setEnabled(false);
+                                                 Toast.makeText(ProfileActivity.this,"Request Sent",Toast.LENGTH_SHORT).show();
+                                             }
+                                         });
                                      }
                                  });
                             }
@@ -218,7 +232,29 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+        mDeclineRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFriendReqdatabaseReference.child(mcurrentUser.getUid()).child(user_id).removeValue()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                mFriendReqdatabaseReference.child(user_id).child(mcurrentUser.getUid()).removeValue()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                msendRequestButton.setEnabled(true);
+                                                mcurrentState="not_friend";
+                                                msendRequestButton.setText("Send Friend Request");
+                                                mDeclineRequestButton.setVisibility(View.INVISIBLE);
+                                                mDeclineRequestButton.setEnabled(false);
+                                            }
+                                        });
+                            }
+                        });
 
+            }
+        });
 
 
 

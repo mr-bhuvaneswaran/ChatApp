@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -27,6 +29,8 @@ public  class UsersActivity extends AppCompatActivity {
 
     private DatabaseReference mUsersDatabase;
 
+    private FirebaseUser mCurrentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public  class UsersActivity extends AppCompatActivity {
         mUsersList = (RecyclerView) findViewById(R.id.users_list);
         mUsersList.setHasFixedSize(true);
         mUsersList.setLayoutManager(new LinearLayoutManager(this));
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
@@ -55,21 +60,26 @@ public  class UsersActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(UsersViewHolder usersViewHolder, Users users, final int position) {
-                usersViewHolder.setName(users.getName());
-                usersViewHolder.setStatus(users.getStatus());
-                usersViewHolder.setThumb(users.getThumb(), getApplicationContext());
                 final String user_id = getRef(position).getKey();
-
-                usersViewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent profileIntent = new Intent(UsersActivity.this,ProfileActivity.class);
-                        profileIntent.putExtra("user_id", user_id);
-                        startActivity(profileIntent);
-                    }
-                });
-
-            }
+                    usersViewHolder.setName(users.getName());
+                    usersViewHolder.setStatus(users.getStatus());
+                    usersViewHolder.setThumb(users.getThumb(), getApplicationContext());
+                    final String current_user = mCurrentUser.getUid();
+                    usersViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (current_user.equals(user_id)) {
+                                Intent settingIntent = new Intent(UsersActivity.this,SettingsActivity.class);
+                                startActivity(settingIntent);
+                            }
+                            else {
+                                Intent profileIntent = new Intent(UsersActivity.this, ProfileActivity.class);
+                                profileIntent.putExtra("user_id", user_id);
+                                startActivity(profileIntent);
+                            }
+                        }
+                    });
+                }
         };
         mUsersList.setAdapter(firebaseRecyclerAdapter);
     }
