@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -60,15 +59,14 @@ public  class UsersActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(UsersViewHolder usersViewHolder, Users users, final int position) {
-                final String user_id = getRef(position).getKey();
                     usersViewHolder.setName(users.getName());
                     usersViewHolder.setStatus(users.getStatus());
                     usersViewHolder.setThumb(users.getThumb(), getApplicationContext());
-                    final String current_user = mCurrentUser.getUid();
+                    final String user_id = getRef(position).getKey();
                     usersViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (current_user.equals(user_id)) {
+                            if (mCurrentUser.getUid().equals(user_id)) {
                                 Intent settingIntent = new Intent(UsersActivity.this,SettingsActivity.class);
                                 startActivity(settingIntent);
                             }

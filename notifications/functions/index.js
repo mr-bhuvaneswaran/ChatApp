@@ -12,15 +12,25 @@ exports.sendNotification = functions.database.ref('/Notifications/{user_id}/{not
         return
     }
 
-    const payload = {
-        Notification:{
+    const device_token = admin.database().ref(`/Users/${user_id}/device_token`).once('value');
+
+    return device_token.then(result => {
+
+        const token_id = result.val();
+
+            const payload = {
+            Notification:{
             title: "FRIEND REQUEST",
             body: "You have New Friend Request",
-            icon: ""
+            icon: "default"
         }
     };
 
-    return admin.messaging().sendToDevice(/*TOKEN ID*/,payload).then(Response =>{
+    return admin.messaging().sendToDevice(token_id,payload).then(Response =>{
         console.log("Notification Feature Added")
+       });
     });
-});
+
+
+    });
+
