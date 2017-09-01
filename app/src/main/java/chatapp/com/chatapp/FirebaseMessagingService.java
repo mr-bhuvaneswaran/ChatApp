@@ -1,6 +1,7 @@
 package chatapp.com.chatapp;
 
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -15,11 +16,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        String title = remoteMessage.getNotification().getTitle();
+        String body  =  remoteMessage.getNotification().getBody();
+        String click_action = remoteMessage.getNotification().getClickAction();
+        String from_user = remoteMessage.getData().get("from_user");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("FRIEND REQUEST")
-                        .setContentText("You have New Friend Request");
+                        .setContentTitle(title)
+                        .setContentText(body);
+
+        Intent resultIntent = new Intent(click_action);
+        resultIntent.putExtra("user_id",from_user);
 
         int mNotificationId = (int) System.currentTimeMillis();
         NotificationManager mNotifyMgr =

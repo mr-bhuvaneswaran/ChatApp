@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mtabsPager;
     private SectionPageAdopter msectionPageAdopter;
     private TabLayout mtabs;
+    private DatabaseReference mUserRef;
 
 
     @Override
@@ -32,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null) {
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("ChatApp");
@@ -65,7 +71,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseUser currentUser =mAuth.getCurrentUser();
+        if(currentUser != null){
+            mUserRef.child("online").setValue(true);
+        }
+        else{
+            moveToStart();
+        }
     }
 
     @Override
@@ -73,6 +85,19 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+        FirebaseUser currentUser =mAuth.getCurrentUser();
+        if(currentUser != null){
+            mUserRef.child("online").setValue(false);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUser currentUser =mAuth.getCurrentUser();
+        if(currentUser != null){
+            mUserRef.child("online").setValue(false);
         }
     }
 
@@ -99,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.main_users_btn){
             Intent usersIntent = new Intent(MainActivity.this,UsersActivity.class);
+            mUserRef.child("online").setValue(true);
             startActivity(usersIntent);
         }
 

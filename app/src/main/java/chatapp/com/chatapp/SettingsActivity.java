@@ -57,7 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         DisplayImage = (CircleImageView) findViewById(R.id.settings_image);
         DisplayName = (TextView) findViewById(R.id.settings_name);
         Status = (TextView) findViewById(R.id.settings_status);
@@ -129,6 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

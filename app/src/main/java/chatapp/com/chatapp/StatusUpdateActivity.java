@@ -70,9 +70,7 @@ public class StatusUpdateActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-
-
     }
+
 }
+

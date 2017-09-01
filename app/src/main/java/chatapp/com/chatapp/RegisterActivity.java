@@ -82,29 +82,22 @@ public class RegisterActivity extends AppCompatActivity {
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = user.getUid();
-
                     mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-
+                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
                     HashMap<String, String> userMap = new HashMap<String, String>();
                     userMap.put("name", name);
                     userMap.put("status", "Hi There, I am Using chatApp");
                     userMap.put("image", "default");
                     userMap.put("thumb", "thumb");
+                    userMap.put("device_token", deviceToken);
 
                     mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            String user_id = mAuth.getCurrentUser().getUid();
-                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                            mDatabase.child("device_token").setValue(deviceToken).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(mainIntent);
                                     finish();
-                                }
-                            });
                         }
                     });
 
