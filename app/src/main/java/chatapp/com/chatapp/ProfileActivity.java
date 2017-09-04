@@ -33,11 +33,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageView mImageView;
-    private TextView mDisplayName;
-    private TextView mStatus;
     private TextView mTotalFriends;
-    private Button mButton;
     private Toolbar mToolbar;
     private DatabaseReference mUserdatabaseReference;
     private DatabaseReference mFriendReqdatabaseReference;
@@ -64,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
         final ImageView mImageView = (ImageView) findViewById(R.id.profile_image_view);
         final TextView mDisplayName = (TextView) findViewById(R.id.profile_display_name);
         final TextView mStatus = (TextView) findViewById(R.id.profile_status);
-        TextView mTotalFriends = (TextView) findViewById(R.id.profile_total_friends);
+        mTotalFriends = (TextView) findViewById(R.id.profile_total_friends);
         final Button msendRequestButton = (Button) findViewById(R.id.profile_send_button);
         final Button mDeclineRequestButton = (Button) findViewById(R.id.profile_decline_button);
         mUserdatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
@@ -80,6 +76,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         mDeclineRequestButton.setVisibility(View.INVISIBLE);
         mDeclineRequestButton.setEnabled(false);
+
+        mFrienddatabaseReference.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String total = Long.toString(dataSnapshot.getChildrenCount());
+                mTotalFriends.setText("Total Friends : " + total);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mUserdatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override

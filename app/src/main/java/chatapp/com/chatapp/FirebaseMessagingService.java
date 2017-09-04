@@ -22,7 +22,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String from_user = remoteMessage.getData().get("from_user");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setSmallIcon(R.mipmap.fab)
                         .setContentTitle(title)
                         .setContentText(body);
 

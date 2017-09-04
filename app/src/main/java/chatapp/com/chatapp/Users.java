@@ -10,15 +10,7 @@ public class Users {
     public String image;
     public String thumb;
     public String device_token;
-    public Boolean online;
 
-    public void setOnline(Boolean online) {
-        this.online = online;
-    }
-
-    public Users(Boolean online) {
-        this.online = online;
-    }
 
     public Users() {
 

@@ -83,10 +83,10 @@ public class FriendsFragment extends Fragment {
                 muserdatabaseReference.child(list_user_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String userName = dataSnapshot.child("name").getValue().toString();
-                        String userthumb = dataSnapshot.child("thumb").getValue().toString();
+                        final String userName = dataSnapshot.child("name").getValue().toString();
+                        final String userthumb = dataSnapshot.child("thumb").getValue().toString();
                         String userStatus = dataSnapshot.child("status").getValue().toString();
-                        Boolean useronline = (Boolean) dataSnapshot.child("online").getValue();
+                        String useronline = dataSnapshot.child("online").getValue().toString();
                         friendsViewHolder.setName(userName);
                         friendsViewHolder.setStatus(userStatus);
                         friendsViewHolder.setThumb(userthumb,getContext());
@@ -109,6 +109,8 @@ public class FriendsFragment extends Fragment {
                                         if (i==1){
                                             Intent userIntent = new Intent(getContext(), ChatActivity.class);
                                             userIntent.putExtra("user_id", list_user_id);
+                                            userIntent.putExtra("user_name", userName);
+                                            userIntent.putExtra("user_thumb", userthumb);
                                             startActivity(userIntent);
                                         }
                                     }
@@ -150,9 +152,9 @@ public class FriendsFragment extends Fragment {
             Picasso.with(ctx).load(thumb).placeholder(R.drawable.default_avatar).into(userImageView);
         }
 
-        public void setOnline(Boolean online){
+        public void setOnline(String online){
             ImageView onlineImage = mview.findViewById(R.id.online_image);
-            if (online == true) {
+            if (online.equals("true")) {
                 onlineImage.setVisibility(View.VISIBLE);
             }
             else {
