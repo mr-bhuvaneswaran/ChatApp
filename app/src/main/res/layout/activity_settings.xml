@@ -9,7 +9,7 @@
     tools:context="chatapp.com.chatapp.SettingsActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/settings_image"
+        android:id="@+id/chat_bar_image"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:src="@drawable/default_avatar"
@@ -23,10 +23,10 @@
         android:layout_above="@+id/settings_change_status_btn"
         android:layout_marginBottom="22dp"
         android:text="@string/change_image"
-        android:layout_alignLeft="@+id/settings_image"
-        android:layout_alignStart="@+id/settings_image"
-        android:layout_alignRight="@+id/settings_image"
-        android:layout_alignEnd="@+id/settings_image" />
+        android:layout_alignLeft="@+id/chat_bar_image"
+        android:layout_alignStart="@+id/chat_bar_image"
+        android:layout_alignRight="@+id/chat_bar_image"
+        android:layout_alignEnd="@+id/chat_bar_image" />
 
     <Button
         android:id="@+id/settings_change_status_btn"
@@ -57,7 +57,7 @@
         android:id="@+id/settings_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_image"
+        android:layout_below="@+id/chat_bar_image"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="40dp"

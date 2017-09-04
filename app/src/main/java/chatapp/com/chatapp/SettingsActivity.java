@@ -33,8 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -57,8 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        DisplayImage = (CircleImageView) findViewById(R.id.settings_image);
+        DisplayImage = (CircleImageView) findViewById(R.id.chat_bar_image);
         DisplayName = (TextView) findViewById(R.id.settings_name);
         Status = (TextView) findViewById(R.id.settings_status);
         StatusBtn = (Button) findViewById(R.id.settings_change_status_btn);
@@ -129,6 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
