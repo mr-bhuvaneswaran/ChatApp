@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("ChatApp");
+        getSupportActionBar().setTitle("FAB");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
